@@ -1,0 +1,38 @@
+.page-header
+  %h1
+    Pedidos activos
+    .pull-right
+      = link_to icon('plus', 'Nuevo pedido'), new_buy_list_path, class: 'btn btn-default'
+
+%table.table
+  %thead
+    %tr
+      %th Nombre
+      %th Creado por
+      %th Fecha a realizar el pedido
+  %tbody
+    - @active_buy_lists.each do |buy_list|
+      %tr
+        %td
+          = link_to "Pedido iniciado el #{buy_list.created_at.strftime('%d de %B del %Y')}", buy_list
+        %td #{buy_list.user.name} #{buy_list.user.last_name}
+        %td= buy_list.order_date.nil? ? 'No definida aún' : buy_list.order_date.strftime('%d de %B del %Y a las %H:%M')
+
+.page-header
+  %h1 Pedidos realizados
+
+- if @inactive_buy_lists.empty?
+  %p Aún no se han realizado pedidos :(
+- else
+  %table.table
+    %thead
+      %tr
+        %th Fecha
+        %th Creado por
+        %th Fecha en que se realizó el pedido
+    %tbody
+      - @inactive_buy_lists.each do |buy_list|
+        %tr
+          %td Pedido del #{buy_list.created_at.strftime('%d de %B del %Y')}
+          %td= buy_list.user.name
+          %td= buy_list.order_date.nil? ? 'No definida aún' : buy_list.order_date.strftime('%d de %B del %Y a las %H:%M')

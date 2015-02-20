@@ -1,0 +1,25 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+.form-container {
+  width: 30%;
+  margin: 50px auto 0 auto;
+  &.link {
+    width: 70%;
+  }
+}
+
+.container {
+  padding-top: 10px
+}
+
+.form-control {
+  &.quantity {
+    width: 70px;
+  }
+  &.link {
+    width: 600px;
+  }
+}

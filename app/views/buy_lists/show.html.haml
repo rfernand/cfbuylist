@@ -1,0 +1,53 @@
+- dolar = @buy_list.dolar
+
+.col-md-12
+  %p#notice= notice
+
+  .page-header
+    - if @buy_list.order_date.nil?
+      %h2 Pedido creado por #{@buy_list.user.name} #{@buy_list.user.last_name}
+    - else
+      %h2 Pedido para el #{@buy_list.order_date.strftime('%d de %B de %Y')}
+
+  %p
+    Precio del dolar del pedido:
+    %strong= number_to_currency(dolar, locale: 'es-CL')
+
+
+  = link_to icon('plus', 'Agrega tus cartas al pedido'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'
+
+  %hr
+
+  - @cards_by_user.each do |cards|
+    - user = cards.take.user
+    .well
+      %h4= user.name
+      %table.table
+        %thead
+          %tr
+            %th Nombre
+            %th Condición
+            %th Precio USD
+            %th Precio CLP
+        %tbody
+          - cards.each do |card|
+            %tr
+              %td= card.name
+              %td= card.condition
+              %td= card.price
+              %td= card.price * dolar
+
+          - total_price = cards.sum(:price)
+          %tr
+            %td
+            %td
+              %strong Total
+            %td
+              %strong
+                = number_to_currency(total_price)
+            %td
+              %strong
+                = number_to_currency(total_price * dolar, locale: 'es-CL')
+
+      - if user == current_user
+        = link_to icon('plus', 'Agregar más cartas'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'

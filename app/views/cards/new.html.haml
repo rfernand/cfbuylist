@@ -1,0 +1,32 @@
+= javascript_include_tag 'cards'
+
+- dolar = @card.buy_list.dolar
+- buy_list = @card.buy_list.id
+
+.col-md-12
+  = link_to '< Volver al pedido', @card.buy_list
+  .form-container.link
+    = form_for [@card.buy_list, @card], html: { class: 'form-inline' } do |f|
+      - if @card.errors.any?
+        #error_explanation
+          %h2= "#{pluralize(@card.errors.count, "error")} prohibited this card from being saved:"
+          %ul
+            - @card.errors.full_messages.each do |msg|
+              %li= msg
+      .form-group
+        = f.text_field :link, class: 'form-control link', placeholder: 'Link'
+      = f.submit 'Obtener', class: 'btn btn-default'
+
+      %p.help-block (Ej: http://store.channelfireball.com/catalog/magic_singles-khans_of_tarkir_block-fate_reforged/break_through_the_line/431843)
+
+  %hr
+
+  %dl.dl-horizontal
+    %dt Precio Total (USD)
+    %dd.total-usd-price
+    %dt Precio Total (CLP)
+    %dd.total-clp-price
+
+  %hr
+
+  #buy-list{ data: { id: buy_list } }

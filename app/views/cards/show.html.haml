@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @card.name
+%p
+  %b Price:
+  = @card.price
+%p
+  %b Link:
+  = @card.link
+%p
+  %b User:
+  = @card.user_id
+
+= link_to 'Edit', edit_card_path(@card)
+\|
+= link_to 'Back', cards_path

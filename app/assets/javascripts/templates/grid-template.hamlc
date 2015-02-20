@@ -1,0 +1,12 @@
+%thead
+  %tr
+    %th Cantidad
+    %th Nombre
+    %th Stock
+    %th Condición
+    %th Precio USD
+    %th Precio CLP
+    %th Precio Total USD
+    %th Precio Total CLP
+    %th
+%tbody

@@ -1,0 +1,27 @@
+%h1 Listing cards
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Price
+      %th Link
+      %th User
+      %th
+      %th
+      %th
+
+  %tbody
+    - @cards.each do |card|
+      %tr
+        %td= card.name
+        %td= card.price
+        %td= card.link
+        %td= card.user_id
+        %td= link_to 'Show', buy_list_card_path(params[:buy_list_id], card.id)
+        / %td= link_to 'Edit', edit_card_path(card)
+        %td= link_to 'Destroy', buy_list_card_path(params[:buy_list_id], card.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Card', new_buy_list_card_path

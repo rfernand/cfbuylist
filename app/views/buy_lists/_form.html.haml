@@ -1,0 +1,19 @@
+.form-container
+  = form_for @buy_list do |f|
+    - if @buy_list.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@buy_list.errors.count, "error")} prohibited this buy_list from being saved:"
+        %ul
+          - @buy_list.errors.full_messages.each do |msg|
+            %li= msg
+
+    .form-group
+      = f.label :dolar, 'Dolar (en CLP)'
+      = f.number_field :dolar, class: 'form-control', placeholder: 'Ej: 630'
+      %p.help-block Puedes cambiar el valor del dolar después.
+    .form-group
+      = f.label :order_date
+      = f.date_field :order_date, class: 'form-control'
+      %p.help-block Opcional. Puedes agregar la fecha del pedido después.
+
+    = f.submit 'Crear', class: 'btn btn-default'

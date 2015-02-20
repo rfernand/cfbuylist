@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Cfbuylist
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    .container
+      = link_to icon('home fa-2x'), root_url
+      %hr
+
+      - if alert
+        .alert.alert-danger{role: :alert}
+          %button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+            %span(aria-hidden="true") &times
+          = alert
+      - if notice
+        .alert.alert-info{role: :alert}
+          %button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+            %span(aria-hidden="true") &times
+          = notice
+
+      = yield

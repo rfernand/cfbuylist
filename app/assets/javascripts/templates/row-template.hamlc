@@ -1,0 +1,12 @@
+%td.col-md-1
+  %input.form-control(type="number" name="card[quantity]" id="#{@id}" value="#{@quantity}")
+%td= @name
+%td= @stock
+%td= @condition
+%td= @usd_price_formatted
+%td= @clp_price_formatted
+%td= @total_usd_price_formatted
+%td= @total_clp_price_formatted
+%td
+  %button.close(type="button" aria-label="Close" data-delete-card="#{@id}" data-confirm="¿Estás seguro de que quieres eliminar esta carta de tu lista?")
+    %span(aria-hidden="true")&times
