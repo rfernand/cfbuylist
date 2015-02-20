@@ -26,28 +26,31 @@
         %thead
           %tr
             %th Nombre
+            %th Cantidad
             %th Condición
             %th Precio USD
             %th Precio CLP
         %tbody
+          - price = 0
           - cards.each do |card|
             %tr
               %td= card.name
+              %td= card.quantity
               %td= card.condition
               %td= card.price
               %td= card.price * dolar
-
-          - total_price = cards.sum(:price)
+            - price += card.price * card.quantity
           %tr
+            %td
             %td
             %td
               %strong Total
             %td
               %strong
-                = number_to_currency(total_price)
+                = number_to_currency(price)
             %td
               %strong
-                = number_to_currency(total_price * dolar, locale: 'es-CL')
+                = number_to_currency(price * dolar, locale: 'es-CL')
 
       - if user == current_user
         = link_to icon('plus', 'Agregar más cartas'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'
