@@ -51,7 +51,7 @@ $ ->
       quantity = $(event.currentTarget).val()
       id = $(event.currentTarget).attr('id')
       card = new Card(id: id)
-      $('input').prop('disabled', true)
+      $('input[name="card[quantity]"]').prop('disabled', true)
       card.save { quantity: quantity },
         success: =>
           @cards.fetch
