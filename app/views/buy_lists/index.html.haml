@@ -1,7 +1,7 @@
 .page-header
   %h1
     Pedidos activos
-    .pull-right
+    - if @active_buy_lists.empty?
       = link_to icon('plus', 'Nuevo pedido'), new_buy_list_path, class: 'btn btn-default'
 
 %table.table
