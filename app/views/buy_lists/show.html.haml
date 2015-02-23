@@ -31,7 +31,7 @@
   - @cards_by_user.each do |cards|
     - user = cards.take.user
     .well
-      %h4= user.name
+      %h4= "#{user.name.capitalize} #{user.last_name.capitalize}"
       %table.table
         %thead
           %tr
