@@ -10,11 +10,21 @@
       %h2 Pedido para el #{@buy_list.order_date.strftime('%d de %B de %Y')}
 
   %p
-    Precio del dolar del pedido:
+    Precio del dolar:
     %strong= number_to_currency(dolar, locale: 'es-CL')
+  %p
+    Precio total del pedido (USD):
+    %strong= number_to_currency(@total_price)
+
+  %p
+    Precio total del pedido (CLP):
+    %strong= number_to_currency(@total_price * dolar, locale: 'es-CL')
 
 
   = link_to icon('plus', 'Agrega tus cartas al pedido'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'
+
+  = form_tag "/buy_lists/#{@buy_list.id}/update_all_prices", class: 'pull-right' do |f|
+    = submit_tag 'Actualizar precios', class: 'btn btn-success', data: { disable_with: 'Actualizando datos...'}
 
   %hr
 
@@ -27,20 +37,31 @@
           %tr
             %th Nombre
             %th Cantidad
+            %th Stock
             %th Condición
             %th Precio USD
             %th Precio CLP
         %tbody
           - price = 0
           - cards.each do |card|
-            %tr
+            %tr{class: ("text-danger" if card.stock.nil?)}
               %td= card.name
               %td= card.quantity
-              %td= card.condition
-              %td= card.price
-              %td= card.price * dolar
+              %td
+                - if card.stock.nil?
+                  Sin stock
+                - else
+                  = card.stock
+              %td
+                - if card.condition.nil?
+                  \-
+                -else
+                  = card.condition
+              %td= number_to_currency(card.price)
+              %td= number_to_currency(card.price * dolar, locale: 'es-CL')
             - price += card.price * card.quantity
           %tr
+            %td
             %td
             %td
             %td

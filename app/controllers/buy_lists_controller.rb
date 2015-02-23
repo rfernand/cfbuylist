@@ -1,5 +1,5 @@
 class BuyListsController < ApplicationController
-  before_action :set_buy_list, only: [:show, :edit, :update, :destroy]
+  before_action :set_buy_list, only: [:show, :edit, :update, :destroy, :update_all_prices]
   before_action :authenticate_user!
 
   # GET /buy_lists
@@ -21,6 +21,8 @@ class BuyListsController < ApplicationController
     users.each do |user|
       @cards_by_user << user.cards.where(buy_list_id: @buy_list.id)
     end
+
+    @total_price = @buy_list.cards.sum('price * quantity')
   end
 
   # GET /buy_lists/new
@@ -72,6 +74,31 @@ class BuyListsController < ApplicationController
       format.html { redirect_to buy_lists_url, notice: 'Buy list was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def update_all_prices
+    cards = @buy_list.cards
+
+    require 'nokogiri'
+    require 'open-uri'
+
+    cards.each do |card|
+      doc = Nokogiri::HTML(open(card.link))
+
+      if !doc.at_css('table.prod-variants .even td').blank?
+        card.condition = doc.at_css('table.prod-variants .even td').text
+        card.price = doc.at_css('table.prod-variants .even td .price').text[/[0-9\.]+/]
+        card.stock = doc.at_css('table.prod-variants .even td .qty').text[/[0-9\.]+/]
+      else
+        card.stock = nil
+        card.price = 0
+        card.condition = nil
+      end
+
+      card.save
+    end
+
+    redirect_to @buy_list, notice: 'Precios actualizados con éxito'
   end
 
   private

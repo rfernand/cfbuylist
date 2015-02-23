@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'buy_lists#index'
 
   resources :buy_lists do
+    post 'update_all_prices', on: :member
     resources :cards
   end
 

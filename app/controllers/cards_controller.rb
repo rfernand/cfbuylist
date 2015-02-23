@@ -32,29 +32,37 @@ class CardsController < ApplicationController
     require 'open-uri'
 
     buy_list = BuyList.find params[:buy_list_id]
-    @card = buy_list.cards.build(card_params)
 
-    doc = Nokogiri::HTML(open(card_params[:link]))
+    cards = card_params[:link].split("\n")
 
-    @card.name = doc.at_css('h1.pagetitle').text
-    @card.condition = doc.css('table.prod-variants .even td')[0].text
-    @card.price = doc.at_css('table.prod-variants .even td .price').text[/[0-9\.]+/]
-    @card.stock = doc.at_css('table.prod-variants .even td .qty').text[/[0-9\.]+/]
-    @card.user = current_user
-    @card.quantity = 1
+    cards.each do |link|
+      @card = buy_list.cards.build(link: link)
 
-    respond_to do |format|
-      if @card.save
-        format.html { redirect_to new_buy_list_card_url, notice: 'Se ha agregado tu carta con éxito' }
-        format.json { render :show, status: :created, location: @card }
+      doc = Nokogiri::HTML(open(link))
+
+      @card.name = doc.at_css('h1.pagetitle').text
+      @card.user = current_user
+      @card.quantity = 0
+      @card.price = 0
+
+      cards_without_stock = []
+
+      if !doc.at_css('table.prod-variants .even td').blank?
+        @card.condition = doc.at_css('table.prod-variants .even td').text
+        @card.price = doc.at_css('table.prod-variants .even td .price').text[/[0-9\.]+/]
+        @card.stock = doc.at_css('table.prod-variants .even td .qty').text[/[0-9\.]+/]
+        @card.quantity = 1
       else
-        format.html { render :new }
-        format.json { render json: @card.errors, status: :unprocessable_entity }
+        cards_without_stock << @card.name
       end
+
+      @card.save
     end
 
-    rescue
-      redirect_to new_buy_list_card_url, alert: 'No existe la carta o no hay stock. Verifica la url.'
+    respond_to do |format|
+      format.html { redirect_to new_buy_list_card_url, notice: 'Tus cartas se ha agreado con éxito' }
+      format.json { render :show, status: :created, location: @card }
+    end
   end
 
   # PATCH/PUT /cards/1

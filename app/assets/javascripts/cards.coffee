@@ -6,9 +6,13 @@ CardView = Backbone.Marionette.ItemView.extend(
 
 CardsView = Backbone.Marionette.CompositeView.extend(
   tagName: 'table'
-  className: 'table'
+  className: 'table table-condensed table-striped'
   template: JST['grid_template']
   childView: CardView
+
+  collectionEvents:
+    'sync' : 'render'
+
 
   appendHtml: (collectionView, itemView) ->
     collectionView.$('tbody').append itemView.el
@@ -40,7 +44,6 @@ $ ->
       @cards = new CardCollection()
       @cards.fetch(data: { card: { buy_list_id: @buy_list_id } } )
       @cardsView = new CardsView(collection: @cards)
-      @cardsView.render()
       @$el.append @cardsView.el
       @getTotalPrice(@buy_list_id)
 
@@ -48,13 +51,12 @@ $ ->
       quantity = $(event.currentTarget).val()
       id = $(event.currentTarget).attr('id')
       card = new Card(id: id)
-      card.save { quantity: quantity }
-      @cards.fetch
-        data: { card: { buy_list_id: @buy_list_id } }
-        wait: true
+      card.save { quantity: quantity },
         success: =>
-          @getTotalPrice(@buy_list_id)
-          @cardsView.render()
+          @cards.fetch
+            data: { card: { buy_list_id: @buy_list_id } }
+            success: =>
+              @getTotalPrice(@buy_list_id)
 
     getTotalPrice: (id) ->
       $.ajax
@@ -71,12 +73,10 @@ $ ->
       card = new Card(id: id)
       card.destroy
         success: =>
-          @getTotalPrice(@buy_list_id)
           @cards.fetch
             data: { card: { buy_list_id: @buy_list_id } }
             success: =>
               @getTotalPrice(@buy_list_id)
-              @cardsView.render()
   )
 
   cardTable = new CardTable()

@@ -14,11 +14,10 @@
             - @card.errors.full_messages.each do |msg|
               %li= msg
       .form-group
-        = f.text_field :link, class: 'form-control link', placeholder: 'Link'
-      = f.submit 'Obtener', class: 'btn btn-default'
+        = f.text_area :link, class: 'form-control link', placeholder: 'Link'
+      = f.submit 'Obtener', class: 'btn btn-default', data: { disable_with: 'Obteniendo datos...'}
 
       %p.help-block (Ej: http://store.channelfireball.com/catalog/magic_singles-khans_of_tarkir_block-fate_reforged/break_through_the_line/431843)
-
   %hr
 
   %dl.dl-horizontal
