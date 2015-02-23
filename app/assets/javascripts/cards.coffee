@@ -51,6 +51,7 @@ $ ->
       quantity = $(event.currentTarget).val()
       id = $(event.currentTarget).attr('id')
       card = new Card(id: id)
+      $('input').prop('disabled', true)
       card.save { quantity: quantity },
         success: =>
           @cards.fetch
@@ -71,6 +72,7 @@ $ ->
     destroyCard: (event) ->
       id = $(event.currentTarget).data('delete-card')
       card = new Card(id: id)
+      $('input').prop('disabled', true)
       card.destroy
         success: =>
           @cards.fetch
