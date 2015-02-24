@@ -20,6 +20,11 @@
       %p.help-block (Ej: http://store.channelfireball.com/catalog/magic_singles-khans_of_tarkir_block-fate_reforged/break_through_the_line/431843)
   %hr
 
+  = form_tag "/buy_lists/#{buy_list}/update_user_prices", class: 'pull-right' do |f|
+    %button{class: 'btn btn-default', data: { disable_with: 'Actualizando datos...' } }
+      = icon('refresh', 'Actualizar precios')
+
+
   %dl.dl-horizontal
     %dt Precio Total (USD)
     %dd.total-usd-price

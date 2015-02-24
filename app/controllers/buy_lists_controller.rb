@@ -1,5 +1,5 @@
 class BuyListsController < ApplicationController
-  before_action :set_buy_list, only: [:show, :edit, :update, :destroy, :update_all_prices]
+  before_action :set_buy_list, only: [:show, :edit, :update, :destroy, :update_all_prices, :update_user_prices]
   before_action :authenticate_user!
 
   # GET /buy_lists
@@ -80,6 +80,12 @@ class BuyListsController < ApplicationController
     Resque.enqueue(UpdatePrices, @buy_list)
 
     redirect_to @buy_list, notice: 'Los precios se están actualizando en estos momentos...'
+  end
+
+  def update_user_prices
+    Resque.enqueue(UpdateUserPrices, @buy_list, current_user)
+
+    redirect_to new_buy_list_card_path(buy_list_id: @buy_list.id), notice: 'Los precios y stock se están actualizando...'
   end
 
   private
