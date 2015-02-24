@@ -24,9 +24,10 @@
 
   = link_to icon('plus', 'Agrega tus cartas al pedido'), new_buy_list_card_path(params[:id]), class: 'btn btn-primary'
 
-  = form_tag "/buy_lists/#{@buy_list.id}/update_all_prices", class: 'pull-right' do |f|
-    %button{class: 'btn btn-default', data: { disable_with: 'Actualizando datos...' } }
-      = icon('refresh', 'Actualizar precios')
+  - if @buy_list.user.id == current_user.id
+    = form_tag "/buy_lists/#{@buy_list.id}/update_all_prices", class: 'pull-right' do |f|
+      %button{class: 'btn btn-default', data: { disable_with: 'Actualizando datos...' } }
+        = icon('refresh', 'Actualizar precios')
 
   %hr
 
