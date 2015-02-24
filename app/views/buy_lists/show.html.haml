@@ -1,14 +1,16 @@
 - dolar = @buy_list.dolar
 
 .col-md-12
-  %p#notice= notice
-
   .page-header
-    - if @buy_list.order_date.nil?
-      %h2 Pedido creado por #{@buy_list.user.name} #{@buy_list.user.last_name}
-    - else
-      %h2 Pedido para el #{@buy_list.order_date.strftime('%d de %B de %Y')}
+    %h2
+      Pedido a realizar el
+      - if @buy_list.order_date.nil?
+        %em fecha no definida aún
+      - else
+        #{@buy_list.order_date.strftime('%d de %B de %Y')}
 
+      - if @buy_list.user.id == current_user.id
+        = link_to icon('pencil-square-o', 'Editar dolar y fecha'), edit_buy_list_path(@buy_list), class: 'btn btn-info'
   %p
     Precio del dolar:
     %strong= number_to_currency(dolar, locale: 'es-CL')
@@ -20,11 +22,11 @@
     Precio total del pedido (CLP):
     %strong= number_to_currency(@total_price * dolar, locale: 'es-CL')
 
-
-  = link_to icon('plus', 'Agrega tus cartas al pedido'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'
+  = link_to icon('plus', 'Agrega tus cartas al pedido'), new_buy_list_card_path(params[:id]), class: 'btn btn-primary'
 
   = form_tag "/buy_lists/#{@buy_list.id}/update_all_prices", class: 'pull-right' do |f|
-    = submit_tag 'Actualizar precios', class: 'btn btn-success', data: { disable_with: 'Actualizando datos...'}
+    %button{class: 'btn btn-default', data: { disable_with: 'Actualizando datos...' } }
+      = icon('refresh', 'Actualizar precios')
 
   %hr
 
@@ -32,7 +34,7 @@
     - user = cards.take.user
     .well
       %h4= "#{user.name.capitalize} #{user.last_name.capitalize}"
-      %table.table
+      %table.table.table-condensed
         %thead
           %tr
             %th Nombre
@@ -57,8 +59,8 @@
                   \-
                 -else
                   = card.condition
-              %td= number_to_currency(card.price)
-              %td= number_to_currency(card.price * dolar, locale: 'es-CL')
+              %td= number_to_currency(card.price * card.quantity)
+              %td= number_to_currency(card.price * dolar * card.quantity, locale: 'es-CL')
             - price += card.price * card.quantity
           %tr
             %td
@@ -73,5 +75,5 @@
               %strong
                 = number_to_currency(price * dolar, locale: 'es-CL')
 
-      - if user == current_user
+      - if user.id == current_user.id
         = link_to icon('plus', 'Agregar más cartas'), new_buy_list_card_path(params[:id]), class: 'btn btn-default'

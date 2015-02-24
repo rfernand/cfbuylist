@@ -7,7 +7,7 @@ module Api
       def index
         buy_list = BuyList.find card_params[:buy_list_id]
 
-        cards = buy_list.cards.where(user: current_user).order(:created_at).decorate
+        cards = buy_list.cards.where(user: current_user).order(:id).decorate
 
         render json: cards, methods: [:usd_price_formatted, :total_usd_price_formatted, :clp_price_formatted, :total_clp_price_formatted]
       end

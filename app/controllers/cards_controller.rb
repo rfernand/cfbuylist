@@ -5,7 +5,7 @@ class CardsController < ApplicationController
   # GET /cards.json
   def index
     buy_list = BuyList.find params[:buy_list_id]
-    @cards = buy_list.cards
+    @cards = buy_list.cards.order(:id)
   end
 
   # GET /cards/1

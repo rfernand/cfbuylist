@@ -26,6 +26,7 @@ gem 'devise'
 gem 'font-awesome-sass', '~> 4.3.0'
 gem 'haml_coffee_assets', '~> 1.16.0'
 gem 'draper', '~> 1.4.0'
+gem 'resque', '~> 1.25.2'
 # gem 'jquery-ui-rails', '~> 5.0.3'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
