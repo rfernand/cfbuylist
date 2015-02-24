@@ -77,13 +77,21 @@ class BuyListsController < ApplicationController
   end
 
   def update_all_prices
-    Resque.enqueue(UpdatePrices, @buy_list)
+    cards = @buy_list.cards
+
+    cards.each do |card|
+      Resque.enqueue(UpdatePrices, card.id, card.link)
+    end
 
     redirect_to @buy_list, notice: 'Los precios se están actualizando en estos momentos...'
   end
 
   def update_user_prices
-    Resque.enqueue(UpdateUserPrices, @buy_list, current_user)
+    cards = @buy_list.cards.where(user: current_user)
+
+    cards.each do |card|
+      Resque.enqueue(UpdatePrices, card.id, card.link)
+    end
 
     redirect_to new_buy_list_card_path(buy_list_id: @buy_list.id), notice: 'Los precios y stock se están actualizando...'
   end
