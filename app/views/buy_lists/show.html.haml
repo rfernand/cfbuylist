@@ -48,7 +48,8 @@
           - price = 0
           - cards.each do |card|
             %tr{class: ("text-danger" if card.stock.nil?)}
-              %td= card.name
+              %td
+                = link_to card.name, card.link, target: '_blank'
               %td= card.quantity
               %td
                 - if card.stock.nil?
