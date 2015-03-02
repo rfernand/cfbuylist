@@ -1,0 +1,22 @@
+= form_for @bought_list do |f|
+  - if @bought_list.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@bought_list.errors.count, "error")} prohibited this bought_list from being saved:"
+      %ul
+        - @bought_list.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :total_usd
+    = f.text_field :total_usd
+  .field
+    = f.label :raw_order
+    = f.text_area :raw_order
+  .field
+    = f.label :buy_list
+    = f.text_field :buy_list
+  .field
+    = f.label :user
+    = f.text_field :user
+  .actions
+    = f.submit 'Save'

@@ -1,0 +1,2 @@
+module BoughtListsHelper
+end

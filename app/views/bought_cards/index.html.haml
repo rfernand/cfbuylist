@@ -1,0 +1,31 @@
+%h1 Listing bought_cards
+
+%table
+  %thead
+    %tr
+      %th Card
+      %th Usd price
+      %th User
+      %th Condition
+      %th Quantity
+      %th Bought list
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @bought_cards.each do |bought_card|
+      %tr
+        %td= bought_card.card
+        %td= bought_card.usd_price
+        %td= bought_card.user
+        %td= bought_card.condition
+        %td= bought_card.quantity
+        %td= bought_card.bought_list
+        %td= link_to 'Show', bought_card
+        %td= link_to 'Edit', edit_bought_card_path(bought_card)
+        %td= link_to 'Destroy', bought_card, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Bought card', new_bought_card_path

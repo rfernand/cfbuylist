@@ -1,0 +1,27 @@
+%h1 Listing bought_lists
+
+%table
+  %thead
+    %tr
+      %th Total usd
+      %th Raw order
+      %th Buy list
+      %th User
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @bought_lists.each do |bought_list|
+      %tr
+        %td= bought_list.total_usd
+        %td= bought_list.raw_order
+        %td= bought_list.buy_list
+        %td= bought_list.user
+        %td= link_to 'Show', bought_list
+        %td= link_to 'Edit', edit_bought_list_path(bought_list)
+        %td= link_to 'Destroy', bought_list, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Bought list', new_bought_list_path

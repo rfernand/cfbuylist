@@ -1,0 +1,2 @@
+module BoughtCardsHelper
+end

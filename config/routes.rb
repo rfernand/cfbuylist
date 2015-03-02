@@ -1,6 +1,10 @@
 require 'resque/server'
 
 Rails.application.routes.draw do
+  resources :bought_lists
+
+  resources :bought_cards
+
   devise_for :users
 
   root 'buy_lists#index'

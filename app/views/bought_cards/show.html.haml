@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Card:
+  = @bought_card.card
+%p
+  %b Usd price:
+  = @bought_card.usd_price
+%p
+  %b User:
+  = @bought_card.user
+%p
+  %b Condition:
+  = @bought_card.condition
+%p
+  %b Quantity:
+  = @bought_card.quantity
+%p
+  %b Bought list:
+  = @bought_card.bought_list
+
+= link_to 'Edit', edit_bought_card_path(@bought_card)
+\|
+= link_to 'Back', bought_cards_path

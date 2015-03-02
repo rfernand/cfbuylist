@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Total usd:
+  = @bought_list.total_usd
+%p
+  %b Raw order:
+  = @bought_list.raw_order
+%p
+  %b Buy list:
+  = @bought_list.buy_list
+%p
+  %b User:
+  = @bought_list.user
+
+= link_to 'Edit', edit_bought_list_path(@bought_list)
+\|
+= link_to 'Back', bought_lists_path
