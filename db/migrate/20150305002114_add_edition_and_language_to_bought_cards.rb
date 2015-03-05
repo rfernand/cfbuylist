@@ -1,6 +1,6 @@
-class AddEditionAndLanguageToBoughCards < ActiveRecord::Migration
+class AddEditionAndLanguageToBoughtCards < ActiveRecord::Migration
   def change
-    add_column :bough_cards, :edition, :string
-    add_column :bough_cards, :language, :string
+    add_column :bought_cards, :edition, :string
+    add_column :bought_cards, :language, :string
   end
 end
